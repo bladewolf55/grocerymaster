@@ -15,7 +15,7 @@
 		<ApplicationTitle>GroceryMaster.UI</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.grocerymaster.ui</ApplicationId>
+		<ApplicationId>com.grocerymaster</ApplicationId>
 		<ApplicationIdGuid>7a5d2339-5ccd-4a04-bb15-f8a8efae33c6</ApplicationIdGuid>
 
 		<!-- Versions -->
