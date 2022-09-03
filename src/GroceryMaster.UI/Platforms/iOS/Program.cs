@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace GroceryMaster.UI
+namespace GroceryMaster.Maui.Maui
 {
     public class Program
     {

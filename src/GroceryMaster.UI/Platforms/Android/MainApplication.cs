@@ -1,8 +1,8 @@
 ﻿using Android.App;
 using Android.Runtime;
-using GroceryMaster.UI.Pages;
+using GroceryMaster.Maui.Maui.Pages;
 
-namespace GroceryMaster.UI
+namespace GroceryMaster.Maui.Maui
 {
     [Application]
     public class MainApplication : MauiApplication

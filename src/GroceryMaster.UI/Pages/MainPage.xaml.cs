@@ -1,4 +1,4 @@
-﻿namespace GroceryMaster.UI.Pages
+﻿namespace GroceryMaster.Maui.Maui.Pages
 {
     public partial class MainPage : ContentPage
     {

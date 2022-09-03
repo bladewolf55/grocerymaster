@@ -1,4 +1,4 @@
-﻿namespace GroceryMaster.UI
+﻿namespace GroceryMaster.Maui.Maui
 {
     public static class MauiProgram
     {

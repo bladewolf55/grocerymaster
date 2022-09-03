@@ -1,0 +1,1 @@
+dotnet ef migrations add InitialCreate --project GroceryMaster.Services --startup-project GroceryMaster.Migrations --context GroceryMasterDbContext

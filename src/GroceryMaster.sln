@@ -5,7 +5,11 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.UI", "GroceryMaster.UI\GroceryMaster.UI.csproj", "{C1B1C4C8-3690-4647-A2E9-F61C634F6957}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryMaster.UnitTests", "GroceryMaster.UnitTests\GroceryMaster.UnitTests.csproj", "{7CD62FE4-27A7-4F3C-B654-7DC004868828}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.UnitTests", "GroceryMaster.UnitTests\GroceryMaster.UnitTests.csproj", "{7CD62FE4-27A7-4F3C-B654-7DC004868828}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryMaster.Services", "GroceryMaster.Services\GroceryMaster.Services.csproj", "{C1FAF581-BAA8-429A-96B1-99769E2E7870}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryMaster.Migrations", "GroceryMaster.Migrations\GroceryMaster.Migrations.csproj", "{D41528C2-EF28-437A-A8D4-0C5E80D8500D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,14 @@ Global
 		{7CD62FE4-27A7-4F3C-B654-7DC004868828}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CD62FE4-27A7-4F3C-B654-7DC004868828}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CD62FE4-27A7-4F3C-B654-7DC004868828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1FAF581-BAA8-429A-96B1-99769E2E7870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1FAF581-BAA8-429A-96B1-99769E2E7870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1FAF581-BAA8-429A-96B1-99769E2E7870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1FAF581-BAA8-429A-96B1-99769E2E7870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D41528C2-EF28-437A-A8D4-0C5E80D8500D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D41528C2-EF28-437A-A8D4-0C5E80D8500D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D41528C2-EF28-437A-A8D4-0C5E80D8500D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D41528C2-EF28-437A-A8D4-0C5E80D8500D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
