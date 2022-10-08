@@ -9,7 +9,7 @@ Param (
     [Parameter(Mandatory = $true)][String]$ProjectName,
     [String]$TestProjectName,
     [switch]$CI, 
-    [switch]$NoClean,
+    [switch]$Clean,
     [switch]$NoTest
 )
 
@@ -37,7 +37,7 @@ $TestResultsDirectory = Join-Path $WorkingDirectory "package" "testresults"
 $CoverageResultsDirectory = Join-Path $WorkingDirectory "package" "coverageresults"
 
 Write-Message "CI                       $CI"
-Write-Message "NoClean                  $NoClean"
+Write-Message "Clean                    $Clean"
 Write-Message "NoTest                   $NoTest"
 Write-Message "SourceDirectory          $SourceDirectory"
 Write-Message "ProjectName              $ProjectName"
@@ -54,13 +54,14 @@ Write-Message "TestResultsDirectory     $TestResultsDirectory"
 Write-Message "CoverageResultsDirectory $CoverageResultsDirectory"
 
 try {
-    if (-Not($CI) -And -Not($NoClean)) {
+    # remove package
+    if (Run { Test-Path $PackageDirectory } ) {
+        Run { Remove-Item $PackageDirectory -Recurse }
+    }
+
+    if ($Clean) {
         Write-Message "## CLEAN"
         GitClean 
-        # remove other untracked folders that aren't fully cleaned
-        if (Run { Test-Path $PackageDirectory } ) {
-            Run { Remove-Item $PackageDirectory -Recurse }
-        }
     }
 
     # Should run dotnet within project directory. Required if global.json is used.

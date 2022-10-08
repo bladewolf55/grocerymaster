@@ -1,4 +1,4 @@
-# The idea is to run this once to verify/update the environmen dependencies. Might be too complicated.
+# The idea is to run this once to verify/update the environment dependencies. Might be too complicated.
 
 Write-Host "# BUILD ENVIRONMENT" -ForegroundColor Cyan
 

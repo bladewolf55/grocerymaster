@@ -1,8 +1,8 @@
 [CmdletBinding()]
 Param (
     [switch]$CI, 
-    [switch]$NoClean
-    # ,    [switch]$NoTest
+    [switch]$Clean,
+    [switch]$NoTest
     )
 
 # Immediately exit on any error
@@ -19,22 +19,22 @@ $sw = [System.Diagnostics.Stopwatch]::StartNew()
     -ProjectName GroceryMaster.UnitTests `
     -TestProjectName GroceryMaster.UnitTests `
     -CI:$CI `
-    -NoClean:$NoClean `
-    -NoTest:$False
+    -Clean:$Clean `
+    -NoTest:$NoTest
 
 # Package
 ./build-dotnet `
     -SourceDirectory src `
     -ProjectName GroceryMaster.Services `
     -CI:$CI `
-    -NoClean:$NoClean `
+    -Clean:$Clean `
     -NoTest:$True
 
 ./build-maui `
     -SourceDirectory src `
     -ProjectName GroceryMaster.UI `
     -CI:$CI `
-    -NoClean:$NoClean `
+    -Clean:$Clean `
     -NoTest:$True
 
 # Data
@@ -44,7 +44,7 @@ $sw = [System.Diagnostics.Stopwatch]::StartNew()
     -StartupProjectName GroceryMaster.Migrations `
     -DbContextName GroceryMasterDbContext `
     -CI:$CI `
-    -NoClean:$NoClean `
+    -Clean:$Clean `
 
 $sw.Stop()
 Write-Host "=========================="

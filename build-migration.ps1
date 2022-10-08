@@ -48,15 +48,14 @@ Write-Message "BundleDirectory          $BundleDirectory"
 Write-Message "BundleFilePath           $BundleFilePath"
 
 try {
-    if (-Not($CI) -And -Not($NoClean)) {
+    # remove package
+    if (Run { Test-Path $PackageDirectory } ) {
+        Run { Remove-Item $PackageDirectory -Recurse }
+    }
+
+    if ($Clean) {
         Write-Message "## CLEAN"
-        Write-Message "INFORMATION: Clean is not being run in migrations for now."
-        # Getting "obj directory not empty" errors.
-        # GitClean 
-        # # remove other untracked folders that aren't fully cleaned
-        # if (Run { Test-Path $PackageDirectory } ) {
-        #     Run { Remove-Item $PackageDirectory -Recurse }
-        # }
+        GitClean 
     }
 
     Write-Message "# BUNDLE"
