@@ -5,12 +5,11 @@
 
 [CmdletBinding()]
 Param (
-    [Parameter(Mandatory = $true)][String]$SourceDirectory,
-    [Parameter(Mandatory = $true)][String]$ProjectName,
-    [Parameter(Mandatory = $true)][String]$StartupProjectName,
+    [Parameter(Mandatory = $true)][String]$ProjectDirectory,
+    [Parameter(Mandatory = $true)][String]$StartupProjectDirectory,
     [Parameter(Mandatory = $true)][String]$DbContextName,    
     [switch]$CI,
-    [switch]$NoClean
+    [switch]$Clean
 )
 
 Write-Host "# BUILD MIGRATIONS" -ForegroundColor Cyan
@@ -26,15 +25,17 @@ if ($PSVersionTable.PSEdition -ne "Core") {
 # ===== MAIN =====
 Write-Message "## SETTINGS"
 $WorkingDirectory = Get-Location
-$ProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $ProjectName
-$StartupProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $StartupProjectName
+$ProjectDirectory = Join-Path $WorkingDirectory $ProjectDirectory
+$ProjectName = Split-Path $ProjectDirectory -Leaf
+$StartupProjectName = Split-Path $StartupProjectDirectory -Leaf
+$StartupProjectDirectory = Join-Path $WorkingDirectory $StartupProjectDirectory
 $PackageDirectory = Join-Path $WorkingDirectory "package" $ProjectName
 $BundleName = 'efbundle.exe'
 $BundleDirectory = Join-Path $WorkingDirectory "package" "Migrations" $ProjectName
 $BundleFilePath = Join-Path $BundleDirectory $BundleName
 
 Write-Message "CI                       $CI"
-Write-Message "NoClean                  $NoClean"
+Write-Message "Clean                    $Clean"
 Write-Message "SourceDirectory          $SourceDirectory"
 Write-Message "ProjectName              $ProjectName"
 Write-Message "StartupProjectName       $StartupProjectName"

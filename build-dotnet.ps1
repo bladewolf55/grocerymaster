@@ -5,9 +5,8 @@
 
 [CmdletBinding()]
 Param (
-    [Parameter(Mandatory = $true)][String]$SourceDirectory,
-    [Parameter(Mandatory = $true)][String]$ProjectName,
-    [String]$TestProjectName,
+    [Parameter(Mandatory = $true)][String]$ProjectDirectory,
+    [String]$TestProjectDirectory,
     [switch]$CI, 
     [switch]$Clean,
     [switch]$NoTest
@@ -26,16 +25,19 @@ if ($PSVersionTable.PSEdition -ne "Core") {
 # ===== MAIN =====
 Write-Message "## SETTINGS"
 $WorkingDirectory = Get-Location
-$ProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $ProjectName
+$ProjectDirectory = Join-Path $WorkingDirectory $ProjectDirectory
+$ProjectName = Split-Path $ProjectDirectory -Leaf
 $PackageDirectory = Join-Path $WorkingDirectory "package" $ProjectName
-$TestProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $TestProjectName
+if ($TestProjectDirectory){
+    $TestProjectDirectory = Join-Path $WorkingDirectory $TestProjectDirectory
+}
+$TestProjectName = Split-Path $TestProjectDirectory -Leaf
 $TestResultsDirectory = Join-Path $WorkingDirectory "package" "testresults"
 $CoverageResultsDirectory = Join-Path $WorkingDirectory "package" "coverageresults"
 
 Write-Message "CI                       $CI"
 Write-Message "Clean                    $Clean"
 Write-Message "NoTest                   $NoTest"
-Write-Message "SourceDirectory          $SourceDirectory"
 Write-Message "ProjectName              $ProjectName"
 Write-Message "WorkingDirectory         $WorkingDirectory"
 Write-Message "ProjectDirectory         $ProjectDirectory"
@@ -62,7 +64,7 @@ try {
     Write-Message "## BUILD"
     Run { dotnet build -c Release -p:WarningLevel=1 -warnAsMessage:"CS1591" }
 
-    if (-Not($NoTest) -and $TestProjectName -ne '') {
+    if (-Not($NoTest) -and $TestProjectDirectory -ne '') {
         Write-Message "## TEST"
         $LogFileName = "$TestProjectName" + ".trx"
         Run { dotnet test $TestProjectDirectory --results-directory $TestResultsDirectory --logger "trx;LogFileName=$LogFileName" }

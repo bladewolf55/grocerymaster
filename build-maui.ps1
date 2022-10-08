@@ -5,9 +5,8 @@
 
 [CmdletBinding()]
 Param (
-    [Parameter(Mandatory = $true)][String]$SourceDirectory,
-    [Parameter(Mandatory = $true)][String]$ProjectName,
-    [String]$TestProjectName,
+    [Parameter(Mandatory = $true)][String]$ProjectDirectory,
+    [String]$TestProjectDirectory,
     [switch]$CI, 
     [switch]$Clean,
     [switch]$NoTest
@@ -26,20 +25,23 @@ if ($PSVersionTable.PSEdition -ne "Core") {
 # ===== MAIN =====
 Write-Message "## SETTINGS"
 $WorkingDirectory = Get-Location
-$ProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $ProjectName
+$ProjectDirectory = Join-Path $WorkingDirectory $ProjectDirectory
+$ProjectName = Split-Path $ProjectDirectory -Leaf
 $PackageDirectory = Join-Path $WorkingDirectory "package" $ProjectName
 $PackageDirectoryWindows = Join-Path $PackageDirectory "windows"
 $PackageDirectoryAndroid = Join-Path $PackageDirectory "android"
 $PackageDirectoryIos = Join-Path $PackageDirectory "ios"
 $PackageDirectoryMac = Join-Path $PackageDirectory "mac"
-$TestProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $TestProjectName
+if ($TestProjectDirectory){
+    $TestProjectDirectory = Join-Path $WorkingDirectory $TestProjectDirectory
+}
+$TestProjectName = Split-Path $TestProjectDirectory -Leaf
 $TestResultsDirectory = Join-Path $WorkingDirectory "package" "testresults"
 $CoverageResultsDirectory = Join-Path $WorkingDirectory "package" "coverageresults"
 
 Write-Message "CI                       $CI"
 Write-Message "Clean                    $Clean"
 Write-Message "NoTest                   $NoTest"
-Write-Message "SourceDirectory          $SourceDirectory"
 Write-Message "ProjectName              $ProjectName"
 Write-Message "WorkingDirectory         $WorkingDirectory"
 Write-Message "ProjectDirectory         $ProjectDirectory"

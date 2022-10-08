@@ -15,33 +15,29 @@ $sw = [System.Diagnostics.Stopwatch]::StartNew()
 
 # Test
 ./build-dotnet `
-    -SourceDirectory src `
-    -ProjectName GroceryMaster.UnitTests `
-    -TestProjectName GroceryMaster.UnitTests `
+    -ProjectDirectory src/GroceryMaster.UnitTests `
+    -TestProjectDirectory src/GroceryMaster.UnitTests `
     -CI:$CI `
     -Clean:$Clean `
     -NoTest:$NoTest
 
 # Package
 ./build-dotnet `
-    -SourceDirectory src `
-    -ProjectName GroceryMaster.Services `
+    -ProjectDirectory src/GroceryMaster.Services `
     -CI:$CI `
     -Clean:$Clean `
     -NoTest:$True
 
 ./build-maui `
-    -SourceDirectory src `
-    -ProjectName GroceryMaster.UI `
+    -ProjectDirectory src/GroceryMaster.UI `
     -CI:$CI `
     -Clean:$Clean `
     -NoTest:$True
 
 # Data
-./build-migration `
-    -SourceDirectory src `
-    -ProjectName GroceryMaster.Migrations `
-    -StartupProjectName GroceryMaster.Migrations `
+./build-migrations `
+    -ProjectDirectory src/GroceryMaster.Migrations `
+    -StartupProjectDirectory src/GroceryMaster.Migrations `
     -DbContextName GroceryMasterDbContext `
     -CI:$CI `
     -Clean:$Clean `
