@@ -60,10 +60,10 @@ try {
     Run { dotnet build -c Release -p:WarningLevel=1 -warnAsMessage:"CS1591" }
 
     Write-Message "# PUBLISH"
-    Run { dotnet publish --no-restore -c Release --output $PackageDirectoryWindows --framework net6.0-windows10.0.19041.0}
-    Run { dotnet publish --no-restore -c Release --output $PackageDirectoryAndroid --framework net6.0-android32.0}
-    # Run { dotnet publish -c Release --output $PackageDirectoryIos     --framework net6.0-ios}
-    # Run { dotnet publish -c Release --output $PackageDirectoryMac     --framework net6.0-maccatalyst}
+    Run { dotnet publish --no-restore -c Release --output $PackageDirectoryWindows --framework net7.0-windows10.0.19041.0}
+    Run { dotnet publish --no-restore -c Release --output $PackageDirectoryAndroid --framework net7.0-android}
+    # Run { dotnet publish -c Release --output $PackageDirectoryIos     --framework net7.0-ios}
+    # Run { dotnet publish -c Release --output $PackageDirectoryMac     --framework net7.0-maccatalyst}
 }
 catch {}
 finally {
