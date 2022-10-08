@@ -5,6 +5,12 @@ Param (
     # ,    [switch]$NoTest
     )
 
+# Immediately exit on any error
+$ErrorActionPreference = 'Stop'
+
+# Environment
+./build-environment
+
 # Test
 ./build-dotnet `
     -SourceDirectory src `

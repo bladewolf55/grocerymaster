@@ -7,18 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Domain\**" />
     <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Domain\**" />
     <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Domain\**" />
     <None Remove="Properties\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Models\" />
-    <Folder Include="Domain\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
   </ItemGroup>
 
 </Project>

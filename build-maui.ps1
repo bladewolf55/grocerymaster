@@ -13,6 +13,8 @@ Param (
     [switch]$NoTest
 )
 
+Write-Host "# BUILD .NET MAUI" -ForegroundColor Cyan
+
 # ===== FUNCTIONS  =====
 . ./build-functions.ps1
 
@@ -61,8 +63,11 @@ try {
         }
     }
 
+    # Should run dotnet within project directory. Required if global.json is used.
+    Run {Set-Location $ProjectDirectory}
+
     Write-Message "## BUILD"
-    Run { dotnet build $ProjectDirectory -c Release -t:Rebuild -p:WarningLevel=1 -warnAsMessage:"CS1591" }
+    Run { dotnet build -c Release -t:Rebuild -p:WarningLevel=1 -warnAsMessage:"CS1591" }
 
     if (-Not($NoTest) -and $TestProjectName -ne '') {
         Write-Message "## TEST"
@@ -71,10 +76,10 @@ try {
     }
 
     Write-Message "# PUBLISH"
-    Run { dotnet publish $ProjectDirectory -c Release --output $PackageDirectoryWindows --framework net6.0-windows10.0.19041.0}
-    Run { dotnet publish $ProjectDirectory -c Release --output $PackageDirectoryAndroid --framework net6.0-android}
-    # Run { dotnet publish $ProjectDirectory -c Release --output $PackageDirectoryIos     --framework net6.0-ios}
-    # Run { dotnet publish $ProjectDirectory -c Release --output $PackageDirectoryMac     --framework net6.0-maccatalyst}
+    Run { dotnet publish --no-restore -c Release --output $PackageDirectoryWindows --framework net6.0-windows10.0.19041.0}
+    Run { dotnet publish --no-restore -c Release --output $PackageDirectoryAndroid --framework net6.0-android32.0}
+    # Run { dotnet publish -c Release --output $PackageDirectoryIos     --framework net6.0-ios}
+    # Run { dotnet publish -c Release --output $PackageDirectoryMac     --framework net6.0-maccatalyst}
 }
 catch {}
 finally {

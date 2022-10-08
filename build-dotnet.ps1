@@ -13,6 +13,8 @@ Param (
     [switch]$NoTest
 )
 
+Write-Host "# BUILD .NET" -ForegroundColor Cyan
+
 # ===== FUNCTIONS  =====
 . ./build-functions.ps1
 
@@ -53,8 +55,11 @@ try {
         }
     }
 
+    # Should run dotnet within project directory. Required if global.json is used.
+    Run {Set-Location $ProjectDirectory}
+
     Write-Message "## BUILD"
-    Run { dotnet build $ProjectDirectory -c Release -t:Rebuild -p:WarningLevel=1 -warnAsMessage:"CS1591" }
+    Run { dotnet build -c Release -t:Rebuild -p:WarningLevel=1 -warnAsMessage:"CS1591" }
 
     if (-Not($NoTest) -and $TestProjectName -ne '') {
         Write-Message "## TEST"
@@ -63,7 +68,7 @@ try {
     }
 
     Write-Message "# PUBLISH"
-    Run { dotnet publish $ProjectDirectory -c Release --output $PackageDirectory}
+    Run { dotnet publish --no-restore -c Release --output $PackageDirectory}
 }
 catch {}
 finally {

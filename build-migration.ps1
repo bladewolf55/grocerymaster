@@ -1,4 +1,4 @@
-# Generic build script for .NET apps
+# Generic build script for .NET Migrations
 
 # If you need customizations, copy/paste this script and be fully customized.
 # Only add to this script if the change is truly generic.
@@ -12,6 +12,8 @@ Param (
     [switch]$CI,
     [switch]$NoClean
 )
+
+Write-Host "# BUILD MIGRATIONS" -ForegroundColor Cyan
 
 # ===== FUNCTIONS  =====
 . ./build-functions.ps1
@@ -27,7 +29,7 @@ $WorkingDirectory = Get-Location
 $ProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $ProjectName
 $StartupProjectDirectory = Join-Path $WorkingDirectory $SourceDirectory $StartupProjectName
 $PackageDirectory = Join-Path $WorkingDirectory "package" $ProjectName
-$BundleName = $DbContextName + "Migration.exe"
+$BundleName = 'efbundle.exe'
 $BundleDirectory = Join-Path $WorkingDirectory "package" "Migrations" $ProjectName
 $BundleFilePath = Join-Path $BundleDirectory $BundleName
 
@@ -48,22 +50,26 @@ Write-Message "BundleFilePath           $BundleFilePath"
 try {
     if (-Not($CI) -And -Not($NoClean)) {
         Write-Message "## CLEAN"
-        GitClean 
-        # remove other untracked folders that aren't fully cleaned
-        if (Run { Test-Path $PackageDirectory } ) {
-            Run { Remove-Item $PackageDirectory -Recurse }
-        }
+        Write-Message "INFORMATION: Clean is not being run in migrations for now."
+        # Getting "obj directory not empty" errors.
+        # GitClean 
+        # # remove other untracked folders that aren't fully cleaned
+        # if (Run { Test-Path $PackageDirectory } ) {
+        #     Run { Remove-Item $PackageDirectory -Recurse }
+        # }
     }
 
     Write-Message "# BUNDLE"
     if (-Not(Test-Path $BundleDirectory)) {
         Run { New-Item $BundleDirectory -Type Directory }
     }
-    # Reason for --configuration Bundle
+    # Reason for --configuration Bundle    
     # https://github.com/dotnet/efcore/issues/25555
+    # In short, workaround to locked file error
     Run { dotnet ef migrations bundle --project "$ProjectDirectory" --startup-project "$StartupProjectDirectory" --context $DbContextName --configuration Bundle --force --output "$BundleFilePath"}
-    # Get appsettings
-    Run {Copy-Item -Path $StartupProjectDirectory/* -Destination $BundleDirectory -Include 'appsettings.*' }
+    # Get appsettings,including Development for local deployment. Development has the connection string.
+    Run {Copy-Item -Path $StartupProjectDirectory/appsettings.json -Destination $BundleDirectory }
+    Run {Copy-Item -Path $StartupProjectDirectory/appsettings.Development.json -Destination $BundleDirectory }
 }
 catch {}
 finally {
