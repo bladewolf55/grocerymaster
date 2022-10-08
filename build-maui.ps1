@@ -6,10 +6,8 @@
 [CmdletBinding()]
 Param (
     [Parameter(Mandatory = $true)][String]$ProjectDirectory,
-    [String]$TestProjectDirectory,
     [switch]$CI, 
-    [switch]$Clean,
-    [switch]$NoTest
+    [switch]$Clean
 )
 
 Write-Host "# BUILD .NET MAUI" -ForegroundColor Cyan
@@ -32,16 +30,9 @@ $PackageDirectoryWindows = Join-Path $PackageDirectory "windows"
 $PackageDirectoryAndroid = Join-Path $PackageDirectory "android"
 $PackageDirectoryIos = Join-Path $PackageDirectory "ios"
 $PackageDirectoryMac = Join-Path $PackageDirectory "mac"
-if ($TestProjectDirectory){
-    $TestProjectDirectory = Join-Path $WorkingDirectory $TestProjectDirectory
-}
-$TestProjectName = Split-Path $TestProjectDirectory -Leaf
-$TestResultsDirectory = Join-Path $WorkingDirectory "package" "testresults"
-$CoverageResultsDirectory = Join-Path $WorkingDirectory "package" "coverageresults"
 
 Write-Message "CI                       $CI"
 Write-Message "Clean                    $Clean"
-Write-Message "NoTest                   $NoTest"
 Write-Message "ProjectName              $ProjectName"
 Write-Message "WorkingDirectory         $WorkingDirectory"
 Write-Message "ProjectDirectory         $ProjectDirectory"
@@ -50,10 +41,6 @@ Write-Message "PackageDirectoryWindows  $PackageDirectoryWindows"
 Write-Message "PackageDirectoryAndroid  $PackageDirectoryAndroid"
 Write-Message "PackageDirectoryIos      $PackageDirectoryIos"
 Write-Message "PackageDirectoryMac      $PackageDirectoryMac"
-Write-Message "TestProjectName          $TestProjectName"
-Write-Message "TestProjectDirectory     $TestProjectDirectory"
-Write-Message "TestResultsDirectory     $TestResultsDirectory"
-Write-Message "CoverageResultsDirectory $CoverageResultsDirectory"
 
 try {
     # remove package
@@ -71,12 +58,6 @@ try {
 
     Write-Message "## BUILD"
     Run { dotnet build -c Release -p:WarningLevel=1 -warnAsMessage:"CS1591" }
-
-    if (-Not($NoTest) -and $TestProjectName -ne '') {
-        Write-Message "## TEST"
-        $LogFileName = "$TestProjectName" + ".trx"
-        Run { dotnet test $TestProjectDirectory --results-directory $TestResultsDirectory --logger "trx;LogFileName=$LogFileName" }
-    }
 
     Write-Message "# PUBLISH"
     Run { dotnet publish --no-restore -c Release --output $PackageDirectoryWindows --framework net6.0-windows10.0.19041.0}

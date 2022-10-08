@@ -13,3 +13,8 @@ if ($PSVersionTable.PSEdition -ne "Core") {
 # ===== VERIFY =====
 Write-Message "Update ef tools"
 Run {dotnet tool update --global dotnet-ef}
+
+
+
+# Ensure a newline
+Write-Host ""
