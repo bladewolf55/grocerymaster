@@ -8,6 +8,8 @@ Param (
 # Immediately exit on any error
 $ErrorActionPreference = 'Stop'
 
+$sw = [System.Diagnostics.Stopwatch]::StartNew()
+
 # Environment
 ./build-environment
 
@@ -43,3 +45,8 @@ $ErrorActionPreference = 'Stop'
     -DbContextName GroceryMasterDbContext `
     -CI:$CI `
     -NoClean:$NoClean `
+
+$sw.Stop()
+Write-Host "=========================="
+Write-Host Total elapsed time: $sw.Elapsed.TotalMinutes.ToString("f") minutes -ForegroundColor Green
+Write-Host "=========================="

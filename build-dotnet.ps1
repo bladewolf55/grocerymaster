@@ -59,7 +59,7 @@ try {
     Run {Set-Location $ProjectDirectory}
 
     Write-Message "## BUILD"
-    Run { dotnet build -c Release -t:Rebuild -p:WarningLevel=1 -warnAsMessage:"CS1591" }
+    Run { dotnet build -c Release -p:WarningLevel=1 -warnAsMessage:"CS1591" }
 
     if (-Not($NoTest) -and $TestProjectName -ne '') {
         Write-Message "## TEST"
