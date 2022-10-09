@@ -1,23 +1,64 @@
+# Grocery Master
 
+## Introduction
+Shared grocery lists that work
 
-## Migrations
-dotnet ef migrations add InitialCreate --project GroceryMaster.Services --startup-project GroceryMaster.Migrations --context GroceryMasterDbContext
+## Environment
+> Changing the environment? Change the CI/CD pipeline!
 
+Install                          | Version    
+---------------------------------|------------
+.NET                             | 7
+PowerShell                       | 7.x
+Visual Studio                    | VS 2022 with .NET MAUI workload
+EF Core Tools                    | latest
+Android SDKs                     | 31, 32, 33
 
+Sources:
+*   [.NET](https://dotnet.microsoft.com/download/dotnet)
+*   [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows)
+*   [Visual Studio](https://visualstudio.microsoft.com/downloads/)
 
-## Troubleshooting
-The .NET MAUI app currently depends on the .NET 6 SDK being installed and used. The `global.json` file enforces this requirement. To verify which SDKs are installed, 
+## Getting Started
+> Be sure to use the correct versions from above.
 
-`dotnet --list-sdks`
-
-For reference, here are the steps to creating the global.json and restoring the project's workload. Citation: https://stackoverflow.com/a/73894027/14709316
+**Environment**  
+1.  Install PowerShell 7.x.
+1.  Install .NET 7.
+1.  Install Android SDKs from Visual Studio > Tools > Android > Android SDK Manager (see Microsoft's .NET MAUI installation instructions for more info)
 
 ```powershell
-# Use the output from --list-sdks to determine the latest 6. version
-
-# Navigate to project folder, install global.json
-dotnet new globaljson --sdk-version [from-above]] --roll-forward latestMinor
-
-# Restore project workloads
-dotnet workload restore
+$ErrorActionPreference = 'Stop'
+# ef core tools are installed as part of the build script
 ```
+
+**Application** 
+```powershell
+# Clone source
+$ErrorActionPreference = 'Stop'
+$userRoot = $env:userprofile
+cd "$userRoot/source/repos"
+git clone https://github.com/bladewolf55/grocerymaster.git
+cd GroceryMaster
+# Build app
+./build/build.ps1
+```
+
+## Daily Development
+Things needed to smoothly develop, such as how to run service dependencies.
+
+## Migrations
+Example:
+
+`dotnet ef migrations add InitialCreate --project GroceryMaster.Services --startup-project GroceryMaster.Migrations --context GroceryMasterDbContext`
+
+## When to run the build script
+```powershell
+./build/build.ps1
+```
+The build script simulates what the CI server will do, and is intended to catch build errors before they get to the server. The script should be run before the "final" PR commit. That is:
+
+1.  Before pushing the final feature branch, AND/OR
+1.  Before pushing to the mainline branch
+
+## Troubleshooting
