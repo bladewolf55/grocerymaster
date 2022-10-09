@@ -1,8 +1,49 @@
 Write-Host "Loading functions"
 
 function Write-Message {
-    param ([String] $Message = "")
-    Write-Host $Message -ForegroundColor Green 
+    param (
+        [String]$Message = "",
+        [ConsoleColor] $ForegroundColor = [ConsoleColor]::Green
+    )
+    Write-Host $Message -ForegroundColor $ForegroundColor 
+}
+
+# Writes heading with preceding newline
+function Write-Heading {
+    param (
+        [String]$Message,
+        [Int]$HeaderLevel,
+        [ConsoleColor] $ForegroundColor = [ConsoleColor]::Green
+    )
+    $headers = '#' * $HeaderLevel
+    Write-Message "`n$headers $Message" -ForegroundColor $ForegroundColor
+}
+
+function Write-H1 {
+    param([String]$Message, $ForegroundColor = [ConsoleColor]::Cyan)
+    Write-Heading -Message $Message -HeaderLevel 1 -ForegroundColor $ForegroundColor
+}
+
+function Write-H2 {
+    param([String]$Message, $ForegroundColor = [ConsoleColor]::Green)
+    Write-Heading -Message $Message -HeaderLevel 2 -ForegroundColor $ForegroundColor
+}
+
+function Convert-PathClean([String]$Path){
+    return [System.IO.Path]::GetFullPath($Path)
+}
+
+# Returns Join-Path resolving relative paths
+function Join-PathClean {
+    [CmdletBinding()]
+    Param (
+    [Parameter(Mandatory, Position=0)][String]$Path, 
+    [Parameter(Mandatory, Position=1)][String]$ChildPath, 
+    [Parameter(Position=2, ValueFromRemainingArguments)][String[]] $AdditionalChildPath        
+    )
+  
+    $newPath = Join-Path -Path $Path -ChildPath $ChildPath -AdditionalChildPath $AdditionalChildPath
+    return Convert-PathClean $newPath
 }
 
 # Run a command and terminate on any kind of error

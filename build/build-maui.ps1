@@ -6,31 +6,37 @@
 [CmdletBinding()]
 Param (
     [Parameter(Mandatory = $true)][String]$ProjectDirectory,
+    [Parameter(Mandatory = $true)][String]$PackageDirectory,
     [switch]$CI, 
     [switch]$Clean
 )
-
-Write-Host "# BUILD .NET MAUI" -ForegroundColor Cyan
-
-# ===== FUNCTIONS  =====
-. ./build-functions.ps1
 
 # ===== INIT =====
 if ($PSVersionTable.PSEdition -ne "Core") {
     throw "ERROR: You need to be running in PowerShell Core."
 }
+# Ensure running from where script is located
+Set-Location $PSScriptRoot
 
-# ===== MAIN =====
-Write-Message "## SETTINGS"
+# ===== FUNCTIONS  =====
+. ./shared-functions.ps1
+
+# ===== SETTINGS =====
+$Title = "BUILD .NET MAUI"
 $WorkingDirectory = Get-Location
-$ProjectDirectory = Join-Path $WorkingDirectory $ProjectDirectory
+$ProjectDirectory = Join-PathClean $WorkingDirectory $ProjectDirectory
 $ProjectName = Split-Path $ProjectDirectory -Leaf
-$PackageDirectory = Join-Path $WorkingDirectory "package" $ProjectName
-$PackageDirectoryWindows = Join-Path $PackageDirectory "windows"
-$PackageDirectoryAndroid = Join-Path $PackageDirectory "android"
-$PackageDirectoryIos = Join-Path $PackageDirectory "ios"
-$PackageDirectoryMac = Join-Path $PackageDirectory "mac"
+if (-Not([System.IO.Path]::IsPathRooted($PackageDirectory))) {
+    $PackageDirectory = $PackageDirectory = Join-PathClean $WorkingDirectory $PackageDirectory
+}
+$PackageDirectory = Join-PathClean $PackageDirectory $ProjectName
+$PackageDirectoryWindows = Join-PathClean $PackageDirectory "windows"
+$PackageDirectoryAndroid = Join-PathClean $PackageDirectory "android"
+$PackageDirectoryIos = Join-PathClean $PackageDirectory "ios"
+$PackageDirectoryMac = Join-PathClean $PackageDirectory "mac"
 
+Write-H1 $Title
+Write-H2 "SETTINGS"
 Write-Message "CI                       $CI"
 Write-Message "Clean                    $Clean"
 Write-Message "ProjectName              $ProjectName"
@@ -42,6 +48,7 @@ Write-Message "PackageDirectoryAndroid  $PackageDirectoryAndroid"
 Write-Message "PackageDirectoryIos      $PackageDirectoryIos"
 Write-Message "PackageDirectoryMac      $PackageDirectoryMac"
 
+# ===== MAIN =====
 try {
     # remove package
     if (Run { Test-Path $PackageDirectory } ) {
@@ -49,17 +56,17 @@ try {
     }
 
     if ($Clean) {
-        Write-Message "## CLEAN"
+        Write-H2 "CLEAN"
         GitClean 
     }
 
     # Should run dotnet within project directory. Required if global.json is used.
     Run {Set-Location $ProjectDirectory}
 
-    Write-Message "## BUILD"
+    Write-H2 "BUILD"
     Run { dotnet build -c Release -p:WarningLevel=1 -warnAsMessage:"CS1591" }
 
-    Write-Message "# PUBLISH"
+    Write-H2 "PUBLISH"
     Run { dotnet publish --no-restore -c Release --output $PackageDirectoryWindows --framework net7.0-windows10.0.19041.0}
     Run { dotnet publish --no-restore -c Release --output $PackageDirectoryAndroid --framework net7.0-android}
     # Run { dotnet publish -c Release --output $PackageDirectoryIos     --framework net7.0-ios}

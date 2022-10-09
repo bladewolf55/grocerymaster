@@ -6,28 +6,34 @@
 [CmdletBinding()]
 Param (
     [Parameter(Mandatory = $true)][String]$ProjectDirectory,
+    [Parameter(Mandatory = $true)][String]$PackageDirectory,
     [switch]$CI, 
     [switch]$Clean
 )
-
-Write-Host "# TEST .NET" -ForegroundColor Cyan
-
-# ===== FUNCTIONS  =====
-. ./build-functions.ps1
 
 # ===== INIT =====
 if ($PSVersionTable.PSEdition -ne "Core") {
     throw "ERROR: You need to be running in PowerShell Core."
 }
+# Ensure running from where script is located
+Set-Location $PSScriptRoot
 
-# ===== MAIN =====
-Write-Message "## SETTINGS"
+# ===== FUNCTIONS  =====
+. ./shared-functions.ps1
+
+# ===== SETTINGS =====
+$Title = 'TEST .NET'
 $WorkingDirectory = Get-Location
-$ProjectDirectory = Join-Path $WorkingDirectory $ProjectDirectory
+$ProjectDirectory = Join-PathClean $WorkingDirectory $ProjectDirectory 
 $ProjectName = Split-Path $ProjectDirectory -Leaf
-$TestResultsDirectory = Join-Path $WorkingDirectory "package" "testresults"
-$CoverageResultsDirectory = Join-Path $WorkingDirectory "package" "coverageresults"
+if (-Not([System.IO.Path]::IsPathRooted($PackageDirectory))) {
+    $PackageDirectory = $PackageDirectory = Join-PathClean $WorkingDirectory $PackageDirectory
+}
+$TestResultsDirectory = Join-PathClean $PackageDirectory "testresults"
+$CoverageResultsDirectory = Join-PathClean $PackageDirectory "coverageresults"
 
+Write-H1 $Title
+Write-H2 "SETTINGS"
 Write-Message "CI                       $CI"
 Write-Message "Clean                    $Clean"
 Write-Message "NoTest                   $NoTest"
@@ -37,16 +43,17 @@ Write-Message "ProjectDirectory         $ProjectDirectory"
 Write-Message "TestResultsDirectory     $TestResultsDirectory"
 Write-Message "CoverageResultsDirectory $CoverageResultsDirectory"
 
+# ===== MAIN =====
 try {
     if ($Clean) {
-        Write-Message "## CLEAN"
+        Write-H2 "CLEAN"
         GitClean 
     }
 
     # Should run dotnet within project directory. Required if global.json is used.
     Run {Set-Location $ProjectDirectory}
 
-	Write-Message "## TEST"
+	Write-H2 "TEST"
 	$LogFileName = "$TestProjectName" + ".trx"
 	Run { dotnet test --results-directory $TestResultsDirectory --logger "trx;LogFileName=$LogFileName" }
 }

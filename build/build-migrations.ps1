@@ -7,33 +7,40 @@
 Param (
     [Parameter(Mandatory = $true)][String]$ProjectDirectory,
     [Parameter(Mandatory = $true)][String]$StartupProjectDirectory,
-    [Parameter(Mandatory = $true)][String]$DbContextName,    
+    [Parameter(Mandatory = $true)][String]$DbContextName,
+    [Parameter(Mandatory = $true)][String]$PackageDirectory,
     [switch]$CI,
     [switch]$Clean
 )
-
-Write-Host "# BUILD MIGRATIONS" -ForegroundColor Cyan
-
-# ===== FUNCTIONS  =====
-. ./build-functions.ps1
 
 # ===== INIT =====
 if ($PSVersionTable.PSEdition -ne "Core") {
     throw "ERROR: You need to be running in PowerShell Core."
 }
+# Ensure running from where script is located
+Set-Location $PSScriptRoot
 
-# ===== MAIN =====
-Write-Message "## SETTINGS"
+# ===== FUNCTIONS  =====
+. ./shared-functions.ps1
+
+# ===== SETTINGS =====
+$Title = "BUILD MIGRATIONS"
 $WorkingDirectory = Get-Location
-$ProjectDirectory = Join-Path $WorkingDirectory $ProjectDirectory
+$ProjectDirectory = Join-PathClean $WorkingDirectory $ProjectDirectory
 $ProjectName = Split-Path $ProjectDirectory -Leaf
 $StartupProjectName = Split-Path $StartupProjectDirectory -Leaf
-$StartupProjectDirectory = Join-Path $WorkingDirectory $StartupProjectDirectory
-$PackageDirectory = Join-Path $WorkingDirectory "package" $ProjectName
+$StartupProjectDirectory = Join-PathClean $WorkingDirectory $StartupProjectDirectory
+if (-Not([System.IO.Path]::IsPathRooted($PackageDirectory))) {
+    $PackageDirectory = $PackageDirectory = Join-PathClean $WorkingDirectory $PackageDirectory
+}
+$PackageDirectory
 $BundleName = 'efbundle.exe'
-$BundleDirectory = Join-Path $WorkingDirectory "package" "Migrations" $ProjectName
-$BundleFilePath = Join-Path $BundleDirectory $BundleName
+$BundleDirectory = Join-PathClean $PackageDirectory "Migrations" $ProjectName
+$BundleFilePath = Join-PathClean $BundleDirectory $BundleName
+$PackageDirectory = Join-PathClean $PackageDirectory $ProjectName
 
+Write-H1 $Title
+Write-H2 "SETTINGS"
 Write-Message "CI                       $CI"
 Write-Message "Clean                    $Clean"
 Write-Message "SourceDirectory          $SourceDirectory"
@@ -48,18 +55,22 @@ Write-Message "BundleName               $BundleName"
 Write-Message "BundleDirectory          $BundleDirectory"
 Write-Message "BundleFilePath           $BundleFilePath"
 
+# ===== MAIN =====
 try {
-    # remove package
+    # remove bundle and package
+    if (Run { Test-Path $BundleDirectory } ) {
+        Run { Remove-Item $BundleDirectory -Recurse }
+    }
     if (Run { Test-Path $PackageDirectory } ) {
         Run { Remove-Item $PackageDirectory -Recurse }
     }
 
     if ($Clean) {
-        Write-Message "## CLEAN"
+        Write-H2 "CLEAN"
         GitClean 
     }
 
-    Write-Message "# BUNDLE"
+    Write-H2 "BUNDLE"
     if (-Not(Test-Path $BundleDirectory)) {
         Run { New-Item $BundleDirectory -Type Directory }
     }
