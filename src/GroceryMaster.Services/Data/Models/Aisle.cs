@@ -7,7 +7,7 @@ public class Aisle
     public string Name { get; set; } = string.Empty;
     public int Sequence { get; set; }
 
-    public ICollection<Item>? Items { get; set; }
+    public ICollection<Item> Items { get; set; } = new HashSet<Item>();
 
 }
 

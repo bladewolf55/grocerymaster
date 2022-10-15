@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.UI", "Grocery
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.UnitTests", "GroceryMaster.UnitTests\GroceryMaster.UnitTests.csproj", "{7CD62FE4-27A7-4F3C-B654-7DC004868828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryMaster.Services", "GroceryMaster.Services\GroceryMaster.Services.csproj", "{C1FAF581-BAA8-429A-96B1-99769E2E7870}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.Services", "GroceryMaster.Services\GroceryMaster.Services.csproj", "{C1FAF581-BAA8-429A-96B1-99769E2E7870}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryMaster.Migrations", "GroceryMaster.Migrations\GroceryMaster.Migrations.csproj", "{D41528C2-EF28-437A-A8D4-0C5E80D8500D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.Migrations", "GroceryMaster.Migrations\GroceryMaster.Migrations.csproj", "{D41528C2-EF28-437A-A8D4-0C5E80D8500D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryMaster.IntegrationTests", "GroceryMaster.IntegrationTests\GroceryMaster.IntegrationTests.csproj", "{4236937C-1EFB-4C9F-AFEC-DCA443C9EFB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{D41528C2-EF28-437A-A8D4-0C5E80D8500D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D41528C2-EF28-437A-A8D4-0C5E80D8500D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D41528C2-EF28-437A-A8D4-0C5E80D8500D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4236937C-1EFB-4C9F-AFEC-DCA443C9EFB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4236937C-1EFB-4C9F-AFEC-DCA443C9EFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4236937C-1EFB-4C9F-AFEC-DCA443C9EFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4236937C-1EFB-4C9F-AFEC-DCA443C9EFB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,8 +15,7 @@ public class GroceryMasterDbContext: DbContext
     public GroceryMasterDbContext(DbContextOptions options) : base(options) { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    {        
         base.OnConfiguring(optionsBuilder);
     }
 
