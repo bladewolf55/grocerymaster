@@ -12,6 +12,5 @@ namespace GroceryMaster.Maui.Maui.Pages
             InitializeComponent();
             BindingContext = viewModel;
         }
-
     }
 }

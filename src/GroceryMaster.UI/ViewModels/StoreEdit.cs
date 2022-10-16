@@ -1,44 +1,35 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-//using Xamarin.CommunityToolkit;
 
 namespace GroceryMaster.Maui.Maui.ViewModels;
 
-public partial class StoreEdit: ObservableObject
+public partial class StoreEdit : ObservableObject
 {
-    readonly IGroceryDataService service;
-    Store selectedStore;
-
-    public ObservableCollection<Store> Stores { get; private set; }
-
-    public Store SelectedStore 
-    { 
-        get => selectedStore;
-        set => SetProperty(ref selectedStore, value);        
-    }
-
-    public AsyncRelayCommand<Store> SelectedCommand { get; }
-
-    async Task Selected(Store store)
-    {
-        if (store == null)
-            return;
-        await Application.Current.MainPage.DisplayAlert("Selected", store.Name, "OK");
-    }
+    private readonly IGroceryDataService service;
+    private Store selectedStore;
 
     public StoreEdit(IGroceryDataService service)
     {
         this.service = service;
         Stores = new ObservableCollection<Store>(GetStores());
-        SelectedCommand = new AsyncRelayCommand<Store>(Selected);
-        //SelectedStore = Stores.FirstOrDefault();
-        //OnPropertyChanged(nameof(SelectedStore));
     }
 
+    public Store SelectedStore
+    {
+        get
+        {
+            Application.Current.MainPage.DisplayAlert("Selected", $"Get {selectedStore.Name}", "OK");
+            return selectedStore;
+        }
+        set
+        {
+            var name = value != null ? value.Name : "na";
+            Application.Current.MainPage.DisplayAlert("Selected", $@"Set {name}", "OK");
+            SetProperty(ref selectedStore, value);
+        }
+    }
+
+    public ObservableCollection<Store> Stores { get; private set; }
 
     public IEnumerable<Store> GetStores() => service.GetStores();
- 
-    
-
 }

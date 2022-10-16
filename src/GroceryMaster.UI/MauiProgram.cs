@@ -3,6 +3,8 @@ using GroceryMaster.Maui.Maui.Pages;
 using GroceryMaster.Maui.Maui.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using CommunityToolkit.Maui;
+
 
 namespace GroceryMaster.Maui.Maui
 {
@@ -13,6 +15,7 @@ namespace GroceryMaster.Maui.Maui
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
