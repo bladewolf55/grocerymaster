@@ -5,36 +5,50 @@
              xmlns:ViewModels="clr-namespace:GroceryMaster.Maui.Maui.ViewModels"
              xmlns:Models="clr-namespace:GroceryMaster.Data.Models;assembly=GroceryMaster.Services"
              x:DataType="ViewModels:StoreEdit"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
              >
     <ContentPage.Resources>
     </ContentPage.Resources>
 
-    <ListView ItemsSource="{ Binding Stores }"
-              SelectedItem="{ Binding SelectedStore }"
-              SelectionMode="Single"
+    <StackLayout>
+        <Button Text="Refresh" Command="{Binding RefreshCommand}" MaximumWidthRequest="200" HorizontalOptions="Start"/>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Add" Command="{Binding AddStoreCommand}" CommandParameter="{}"/>
+            <Entry Text="{Binding NewStoreName}" Placeholder="New store name" ReturnCommand="{Binding AddStoreCommand}"/>
+        </StackLayout>
+        
+        <Line BackgroundColor="Gray"/>
+        <Label Text="{Binding SelectedStoreName, StringFormat='Selected: {0}'}" />
+        <Line BackgroundColor="Gray"/>
+        <ListView 
+            x:Name="ParentList"
+            ItemsSource="{ Binding Stores }"
+            SelectedItem="{ Binding SelectedStore }"
+            x:DataType="ViewModels:StoreEdit"
               >
-        <ListView.Behaviors>
+            <ListView.Behaviors>
 
-        </ListView.Behaviors>
-        <ListView.ItemTemplate>
-            <!-- Specifying the data type allows IntelliSense, else throws an error 
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <!-- Specifying the data type allows IntelliSense, else throws an error 
             unless the ContentPage x:DataType is removed-->
-            <DataTemplate x:DataType="Models:Store">
-                <ViewCell>
-                    <Grid Padding="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="1"
-                               Text="{Binding Name}"/>
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
-
+                <DataTemplate x:DataType="Models:Store">
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Frame>
+                                <StackLayout Orientation="Horizontal">
+                                    <Button Text="Delete" 
+                                            Command="{Binding Source={x:Reference ParentList}, Path=BindingContext.DeleteStoreCommand}" 
+                                            CommandParameter="{Binding}"
+                                            /> 
+                                    <Label Text ="{Binding StoreId}"/> 
+                                    <Label Text="{Binding Name}"  />
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>
