@@ -36,14 +36,15 @@
                     <ViewCell>
                         <Grid Padding="10">
                             <Frame>
-                                <StackLayout Orientation="Horizontal">
-                                    <Button Text="Delete" 
+                                <!--<StackLayout Orientation="Horizontal">-->
+                                    <!--<Button Text="Delete" 
+                                            MaximumWidthRequest="200"
                                             Command="{Binding Source={x:Reference ParentList}, Path=BindingContext.DeleteStoreCommand}" 
                                             CommandParameter="{Binding}"
-                                            /> 
-                                    <Label Text ="{Binding StoreId}"/> 
-                                    <Label Text="{Binding Name}"  />
-                                </StackLayout>
+                                            />--> 
+                                    <!--<Label Text = "{Binding StoreId}"/>--> 
+                                    <Label Text="{Binding Name}" />
+                                <!--</StackLayout>-->
                             </Frame>
                         </Grid>
                     </ViewCell>
