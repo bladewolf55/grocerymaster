@@ -12,6 +12,8 @@ namespace GroceryMaster.Maui.Maui
     {
         public static MauiApp CreateMauiApp()
         {
+            var dbPath = Path.Join( Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"grocerymaster.db");
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -22,17 +24,27 @@ namespace GroceryMaster.Maui.Maui
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-
-            builder.Configuration.AddJsonFile("appsettings.json");
-
             builder.Services.AddDbContext<GroceryMasterDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("GroceryMasterDb"))
+            {
+                //options.UseSqlite($"Data Source={dbPath}", sqliteOptions => 
+                //    sqliteOptions.MigrationsAssembly("GroceryMaster.Migrations"));
+                options.UseSqlite($"Data Source={dbPath}");
+                options.LogTo(Console.WriteLine);
+            }
             );
             builder.Services.AddSingleton<IGroceryDataService, GroceryDataService>();
             builder.Services.AddSingleton<StoreEdit>();
             builder.Services.AddSingleton<MainPage>();
 
-            return builder.Build();
+            var app = builder.Build();
+
+            // Ensure database created and update to date
+            var db = app.Services.GetService<GroceryMasterDbContext>();
+            //db.Database.Migrate();
+            db.Database.EnsureCreated();
+
+
+            return app;
         }
     }
 }

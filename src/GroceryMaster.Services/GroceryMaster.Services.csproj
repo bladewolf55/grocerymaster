@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Domain\**" />
-    <Compile Remove="Properties\**" />
-    <EmbeddedResource Remove="Domain\**" />
-    <EmbeddedResource Remove="Properties\**" />
-    <None Remove="Domain\**" />
-    <None Remove="Properties\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Data\Models\" />
   </ItemGroup>
 
