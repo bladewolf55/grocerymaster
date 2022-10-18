@@ -1,12 +1,10 @@
-﻿using GroceryMaster.Maui.Maui.ViewModels;
+﻿using GroceryMaster.UI.ViewModels;
 
 
-namespace GroceryMaster.Maui.Maui.Pages
+namespace GroceryMaster.UI.Pages
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage(StoreEdit viewModel)
         {
             InitializeComponent();

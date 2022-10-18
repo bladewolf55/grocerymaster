@@ -1,12 +1,12 @@
 ﻿using GroceryMaster.Data;
-using GroceryMaster.Maui.Maui.Pages;
-using GroceryMaster.Maui.Maui.ViewModels;
+using GroceryMaster.UI.Pages;
+using GroceryMaster.UI.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using CommunityToolkit.Maui;
 
 
-namespace GroceryMaster.Maui.Maui
+namespace GroceryMaster.UI
 {
     public static class MauiProgram
     {

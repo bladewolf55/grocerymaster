@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GroceryMaster.Maui.Maui.Pages;
+using GroceryMaster.UI.Pages;
 using System.Collections.ObjectModel;
 
-namespace GroceryMaster.Maui.Maui.ViewModels;
+namespace GroceryMaster.UI.ViewModels;
 
 public partial class StoreEdit : ObservableObject
 {

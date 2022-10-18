@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.Services", "G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.Migrations", "GroceryMaster.Migrations\GroceryMaster.Migrations.csproj", "{D41528C2-EF28-437A-A8D4-0C5E80D8500D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryMaster.IntegrationTests", "GroceryMaster.IntegrationTests\GroceryMaster.IntegrationTests.csproj", "{4236937C-1EFB-4C9F-AFEC-DCA443C9EFB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroceryMaster.IntegrationTests", "GroceryMaster.IntegrationTests\GroceryMaster.IntegrationTests.csproj", "{4236937C-1EFB-4C9F-AFEC-DCA443C9EFB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

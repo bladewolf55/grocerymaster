@@ -1,6 +1,6 @@
-﻿using GroceryMaster.Maui.Maui.Pages;
+﻿using GroceryMaster.UI.Pages;
 
-namespace GroceryMaster.Maui.Maui.WinUI;
+namespace GroceryMaster.UI.WinUI;
 
 /// <summary>
 /// Provides application-specific behavior to supplement the default Application class.

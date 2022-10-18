@@ -1,4 +1,4 @@
-﻿namespace GroceryMaster.Maui.Maui
+﻿namespace GroceryMaster.UI
 {
     public partial class App : Application
     {

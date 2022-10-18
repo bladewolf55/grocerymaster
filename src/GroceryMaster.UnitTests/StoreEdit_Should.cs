@@ -1,5 +1,5 @@
 ﻿using GroceryMaster.Data.Models;
-using GroceryMaster.Maui.Maui.ViewModels;
+using GroceryMaster.UI.ViewModels;
 using GroceryMaster.Services;
 using Xunit;
 

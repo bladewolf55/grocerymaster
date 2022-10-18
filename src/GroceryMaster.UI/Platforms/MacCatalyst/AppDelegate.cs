@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace GroceryMaster.Maui.Maui
+namespace GroceryMaster.UI
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
