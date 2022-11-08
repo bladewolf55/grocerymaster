@@ -1,52 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GroceryMaster.UI.ViewModels"
+             xmlns:model="clr-namespace:GroceryMaster.Data.Models;assembly=GroceryMaster.Services"
              x:Class="GroceryMaster.UI.Pages.MainPage"
-             xmlns:ViewModels="clr-namespace:GroceryMaster.UI.ViewModels"
-             xmlns:Models="clr-namespace:GroceryMaster.Data.Models;assembly=GroceryMaster.Services"
-             x:DataType="ViewModels:StoreEdit"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
+             x:DataType="vm:StoresEdit"
+             Title="Stores"
              >
-    <ContentPage.Resources>
-    </ContentPage.Resources>
 
-    <StackLayout>
-        <Button Text="Refresh" Command="{Binding RefreshCommand}" MaximumWidthRequest="200" HorizontalOptions="Start"/>
-        <StackLayout Orientation="Horizontal">
-            <Button Text="Add" Command="{Binding AddStoreCommand}" CommandParameter="{}"/>
-            <Entry Text="{Binding NewStoreName}" Placeholder="New store name" ReturnCommand="{Binding AddStoreCommand}"/>
-        </StackLayout>
+    <AbsoluteLayout >
+        <VerticalStackLayout
+            AbsoluteLayout.LayoutFlags="SizeProportional"
+            AbsoluteLayout.LayoutBounds="0,0,1,1">
 
-        <Line BackgroundColor="Gray"/>
-        <Label Text="{Binding SelectedStoreName, StringFormat='Selected: {0}'}" />
-        <Line BackgroundColor="Gray"/>
-        <CollectionView 
-            x:Name="ParentList"
-            ItemsSource="{ Binding Stores }"
-            SelectedItem="{ Binding SelectedStore }"
-            SelectionMode="Single"
-              >
-            <CollectionView.ItemTemplate>
-                <!-- Specifying the data type allows IntelliSense, else throws an error 
-            unless the ContentPage x:DataType is removed-->
-                <DataTemplate x:DataType="Models:Store">
-                    <Border>
-                        <HorizontalStackLayout Padding="10, 0, 10, 0">
-                            <Button Text="Delete"
-                                        Padding="5"
-                                        Margin="10, 5, 10, 5"
-                                        HeightRequest="30"
-                                        CornerRadius="5"
-                                        Command="{Binding Source={x:Reference ParentList}, Path=BindingContext.DeleteStoreCommand}" 
-                                        CommandParameter="{Binding}"
-                                            />
-                            <Label Text="{Binding StoreId}"/>
-                            <Label Text="  "/>
-                            <Label Text="{Binding Name}"/>
-                        </HorizontalStackLayout>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+            <HorizontalStackLayout HorizontalOptions="End">
+                <ImageButton 
+                    Source="refresh_circle.png" BackgroundColor="#00000000"
+                    HeightRequest="50" WidthRequest="50" 
+                    Command="{Binding RefreshCommand}"/>
+                <ImageButton 
+                Source="trash_can_outline.png" BackgroundColor="#00000000"
+                HeightRequest="50" WidthRequest="50" 
+                Command="{Binding DeleteSelectedStoresCommand }"/>
+            </HorizontalStackLayout>
+
+            <CollectionView
+                x:Name="collectionView"
+                x:DataType="vm:StoresEdit"
+                ItemsSource="{Binding Stores}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate >
+                    <DataTemplate x:DataType="model:Store">
+                        <Grid Padding="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <!--The "Star" Width. A number followed by a star allocates proportionally 
+                                This was the only way I could fill the column with the button-->
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox CheckedChanged="CheckBox_CheckedChanged" />
+                            <Button Grid.Column="1" Text="{Binding Name}" Clicked="Button_Clicked" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+        <!-- float -->
+        <!-- Android -->
+        <Button 
+            Text="+"
+            FontSize="30"
+            CornerRadius="80"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".95,.95,60,60"
+            Command="{Binding AddStoreCommand}">
+            <Button.Shadow>
+                <Shadow Brush="#000000" 
+                Offset="9,9"
+                Radius="8"
+                Opacity="0.3"/>
+            </Button.Shadow>
+        </Button>
+    </AbsoluteLayout>
 </ContentPage>

@@ -87,4 +87,10 @@
 	  <ProjectReference Include="..\GroceryMaster.Services\GroceryMaster.Services.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\StorePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

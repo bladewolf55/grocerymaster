@@ -33,7 +33,7 @@ namespace GroceryMaster.UI
             }
             );
             builder.Services.AddSingleton<IGroceryDataService, GroceryDataService>();
-            builder.Services.AddSingleton<StoreEdit>();
+            builder.Services.AddSingleton<StoresEdit>();
             builder.Services.AddSingleton<MainPage>();
 
             var app = builder.Build();
