@@ -1,38 +1,82 @@
 ﻿using GroceryMaster.Data.Models;
 using GroceryMaster.UI.ViewModels;
 using GroceryMaster.Services;
-using Xunit;
+using System.Collections.ObjectModel;
 
 namespace GroceryMaster.UnitTests;
 
 public class StoreEdit_Should
 {
-    IGroceryDataService service;
-    StoreEdit storeEdit;
+    private IGroceryDataService service;
+    private Store store;
+    private StoreEdit storeEdit;
 
     public StoreEdit_Should()
     {
         service = Substitute.For<IGroceryDataService>();
-        storeEdit = new(service);
+        this.store = new Store()
+        {
+            StoreId = 1,
+            Name = "Store1"
+        };
+        storeEdit = new(store, service);
     }
 
     [Fact]
-    public void Get_a_store_list()
+    public void Add_an_aisle()
     {
         // arrange
-        List<Store> stores = new() 
+        string name = "Blamo";
+        Aisle aisle = new()
         {
-            new Store { StoreId = 1},
-            new Store { StoreId = 2}
+            Name = name,
         };
 
-        service.GetStores().Returns(stores);
+        // act
+        storeEdit.AddAisle(name);
+
+        // assert
+        service.Received().AddAisle(Arg.Is<Aisle>(a => a.Name == name && a.StoreId == store.StoreId));
+        service.Received().SaveChanges();
+        storeEdit.Aisles.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void Delete_select_aisles()
+    {
+        // arrange
+        Aisle aisle1 = new() { AisleId = 1, StoreId = store.StoreId };
+        Aisle aisle2 = new() { AisleId = 2, StoreId = store.StoreId };
+        Aisle aisle3 = new() { AisleId = 3, StoreId = store.StoreId };
+        List<Aisle> aisles = new() { aisle1, aisle2, aisle3 };
+        storeEdit.Aisles = new ObservableCollection<Aisle>(aisles);
+        storeEdit.SelectedAisles = aisles.Take(2).ToList();
 
         // act
-        var result = storeEdit.GetStores();
+        storeEdit.DeleteSelectedAislesCommand.Execute(null);
+
+        // assert
+        service.Received().DeleteAisle(aisle1);
+        service.Received().DeleteAisle(aisle2);
+        storeEdit.Aisles.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void Get_an_aisle_list()
+    {
+        // arrange
+        List<Aisle> aisles = new()
+        {
+            new Aisle { AisleId = 1, StoreId = store.StoreId},
+            new Aisle { AisleId = 2, StoreId = store.StoreId}
+        };
+
+        service.GetAisles(store.StoreId).Returns(aisles);
+
+        // act
+        var result = storeEdit.GetAisles();
 
         // assert
         result.Should().HaveCount(2);
     }
-    
 }

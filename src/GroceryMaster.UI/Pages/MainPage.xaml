@@ -5,41 +5,45 @@
              xmlns:model="clr-namespace:GroceryMaster.Data.Models;assembly=GroceryMaster.Services"
              x:Class="GroceryMaster.UI.Pages.MainPage"
              x:DataType="vm:StoresEdit"
-             Title="Stores"
-             >
+             Title="Grocery Master">
 
-    <AbsoluteLayout >
+    <AbsoluteLayout>
+        <Label Text="STORES" FontSize="Header"
+               AbsoluteLayout.LayoutFlags="SizeProportional"
+               AbsoluteLayout.LayoutBounds="15,0,1,1" />
+        <HorizontalStackLayout
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".98,.01">
+            <ImageButton
+                    Source="refresh_circle.png" BackgroundColor="#00000000"
+                    HeightRequest="50" WidthRequest="50"
+                    Command="{Binding RefreshCommand}" />
+            <ImageButton
+                Source="trash_can_outline.png" BackgroundColor="#00000000"
+                HeightRequest="50" WidthRequest="50"
+                Command="{Binding DeleteSelectedStoresCommand }" />
+        </HorizontalStackLayout>
+
         <VerticalStackLayout
             AbsoluteLayout.LayoutFlags="SizeProportional"
-            AbsoluteLayout.LayoutBounds="0,0,1,1">
-
-            <HorizontalStackLayout HorizontalOptions="End">
-                <ImageButton 
-                    Source="refresh_circle.png" BackgroundColor="#00000000"
-                    HeightRequest="50" WidthRequest="50" 
-                    Command="{Binding RefreshCommand}"/>
-                <ImageButton 
-                Source="trash_can_outline.png" BackgroundColor="#00000000"
-                HeightRequest="50" WidthRequest="50" 
-                Command="{Binding DeleteSelectedStoresCommand }"/>
-            </HorizontalStackLayout>
+            AbsoluteLayout.LayoutBounds="0,80,1,1">
 
             <CollectionView
                 x:Name="collectionView"
                 x:DataType="vm:StoresEdit"
                 ItemsSource="{Binding Stores}"
                 SelectionMode="None">
-                <CollectionView.ItemTemplate >
+                <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Store">
                         <Grid Padding="8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <!--The "Star" Width. A number followed by a star allocates proportionally 
+                                <ColumnDefinition Width="40" />
+                                <!--The "Star" Width. A number followed by a star allocates proportionally
                                 This was the only way I could fill the column with the button-->
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <CheckBox CheckedChanged="CheckBox_CheckedChanged" />
@@ -48,22 +52,21 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
         </VerticalStackLayout>
         <!-- float -->
         <!-- Android -->
-        <Button 
+        <Button
             Text="+"
             FontSize="30"
             CornerRadius="80"
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".95,.95,60,60"
-            Command="{Binding AddStoreCommand}">
+            Command="{Binding AddStoreWithPromptCommand}">
             <Button.Shadow>
-                <Shadow Brush="#000000" 
+                <Shadow Brush="#000000"
                 Offset="9,9"
                 Radius="8"
-                Opacity="0.3"/>
+                Opacity="0.3" />
             </Button.Shadow>
         </Button>
     </AbsoluteLayout>

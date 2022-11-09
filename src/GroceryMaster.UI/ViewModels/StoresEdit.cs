@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GroceryMaster.UI.Pages;
 using System.Collections.ObjectModel;
 
 namespace GroceryMaster.UI.ViewModels;
@@ -9,16 +8,8 @@ public partial class StoresEdit : ObservableObject
 {
     private readonly IGroceryDataService service;
 
-    #region "Properties"
-
     [ObservableProperty]
-    ObservableCollection<Store> stores;
-
-    public List<Store> SelectedStores { get; set; } = new List<Store>();
-
-    #endregion
-
-    #region "Constructors"
+    private ObservableCollection<Store> stores;
 
     public StoresEdit(IGroceryDataService service)
     {
@@ -26,35 +17,15 @@ public partial class StoresEdit : ObservableObject
         Refresh();
     }
 
-    #endregion
+    public List<Store> SelectedStores { get; set; } = new List<Store>();
 
-    #region "Methods"
-    public IEnumerable<Store> GetStores() => service.GetStores();
-
-    [RelayCommand]
-    private void Refresh()
+    public void AddStore(string name)
     {
-        Stores = new ObservableCollection<Store>(GetStores());
-    }
-
-    [RelayCommand]
-    private async void AddStore()
-    {
-        string result = await Application.Current.MainPage.DisplayPromptAsync("Store entry", "Enter the store name");
-        if (result != null)
-        {
-            try
-            {
-                Store store = new() { Name = result };
-                store = service.AddStore(store);
-                service.SaveChanges();
-                Stores.Add(store);
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.GetBaseException().Message, "OK");
-            }
-        }
+        Store store = new() { Name = name };
+        store = service.AddStore(store);
+        service.SaveChanges();
+        Stores.Add(store);
+        Refresh();
     }
 
     public void ChangeStoreSelection(Store store, CheckedChangedEventArgs e)
@@ -66,6 +37,25 @@ public partial class StoresEdit : ObservableObject
         else
         {
             SelectedStores.Remove(store);
+        }
+    }
+
+    public IEnumerable<Store> GetStores() => service.GetStores();
+
+    [RelayCommand]
+    private async void AddStoreWithPrompt()
+    {
+        string result = await Application.Current.MainPage.DisplayPromptAsync("Store entry", "Enter the store name");
+        if (result != null)
+        {
+            try
+            {
+                AddStore(result);
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.GetBaseException().Message, "OK");
+            }
         }
     }
 
@@ -85,10 +75,13 @@ public partial class StoresEdit : ObservableObject
         }
         catch (Exception ex)
         {
-
         }
         finally { SelectedStores = SelectedStores.Except(deleted).ToList(); }
     }
-    #endregion
 
+    [RelayCommand]
+    private void Refresh()
+    {
+        Stores = new ObservableCollection<Store>(GetStores().OrderBy(a => a.Name));
+    }
 }

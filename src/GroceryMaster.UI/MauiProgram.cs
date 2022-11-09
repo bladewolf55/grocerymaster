@@ -5,14 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using CommunityToolkit.Maui;
 
-
 namespace GroceryMaster.UI
 {
     public static class MauiProgram
     {
         public static MauiApp CreateMauiApp()
         {
-            var dbPath = Path.Join( Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"grocerymaster.db");
+            var dbPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grocerymaster.db");
 
             var builder = MauiApp.CreateBuilder();
             builder
@@ -26,7 +25,7 @@ namespace GroceryMaster.UI
 
             builder.Services.AddDbContext<GroceryMasterDbContext>(options =>
             {
-                //options.UseSqlite($"Data Source={dbPath}", sqliteOptions => 
+                //options.UseSqlite($"Data Source={dbPath}", sqliteOptions =>
                 //    sqliteOptions.MigrationsAssembly("GroceryMaster.Migrations"));
                 options.UseSqlite($"Data Source={dbPath}");
                 options.LogTo(Console.WriteLine);
@@ -34,6 +33,7 @@ namespace GroceryMaster.UI
             );
             builder.Services.AddSingleton<IGroceryDataService, GroceryDataService>();
             builder.Services.AddSingleton<StoresEdit>();
+            builder.Services.AddSingleton<StoreEdit>();
             builder.Services.AddSingleton<MainPage>();
 
             var app = builder.Build();
@@ -42,7 +42,6 @@ namespace GroceryMaster.UI
             var db = app.Services.GetService<GroceryMasterDbContext>();
             //db.Database.Migrate();
             db.Database.EnsureCreated();
-
 
             return app;
         }
