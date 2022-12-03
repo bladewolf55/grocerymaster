@@ -32,6 +32,8 @@ public class StoreEdit_Should
             Name = name,
         };
 
+        service.AddAisle((Arg.Is<Aisle>(a => a.Name == name && a.StoreId == store.StoreId))).Returns(aisle);
+
         // act
         storeEdit.AddAisle(name);
 

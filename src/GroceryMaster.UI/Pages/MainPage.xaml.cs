@@ -22,6 +22,9 @@ public partial class MainPage : ContentPage
         var store = ((Button)sender).BindingContext as Store;
         var vm = new StoreEdit(store, service);
         Application.Current.MainPage.Navigation.PushAsync(new StorePage(vm, service), true);
+
+        // TEST
+        //Application.Current.MainPage.Navigation.PushAsync(new TestPage(), true);
     }
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)

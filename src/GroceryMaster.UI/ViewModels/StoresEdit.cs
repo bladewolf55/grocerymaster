@@ -25,7 +25,6 @@ public partial class StoresEdit : ObservableObject
         store = service.AddStore(store);
         service.SaveChanges();
         Stores.Add(store);
-        Refresh();
     }
 
     public void ChangeStoreSelection(Store store, CheckedChangedEventArgs e)

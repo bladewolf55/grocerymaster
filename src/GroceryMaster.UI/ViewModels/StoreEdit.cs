@@ -25,10 +25,10 @@ public partial class StoreEdit : ObservableObject
 
     public void AddAisle(string name)
     {
-        Aisle Aisle = new() { Name = name, StoreId = Store.StoreId };
-        Aisle = service.AddAisle(Aisle);
+        Aisle aisle = new() { Name = name, StoreId = Store.StoreId };
+        aisle = service.AddAisle(aisle);
         service.SaveChanges();
-        Aisles.Add(Aisle);
+        Aisles.Add(aisle);
         SetAisleSequences();
     }
 

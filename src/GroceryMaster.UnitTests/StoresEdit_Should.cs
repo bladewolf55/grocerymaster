@@ -26,6 +26,8 @@ public class StoresEdit_Should
             Name = name,
         };
 
+        service.AddStore((Arg.Is<Store>(a => a.Name == name))).Returns(store);
+
         // act
         storesEdit.AddStore(name);
 

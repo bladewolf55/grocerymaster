@@ -28,30 +28,34 @@
             AbsoluteLayout.LayoutFlags="SizeProportional"
             AbsoluteLayout.LayoutBounds="0,80,1,1">
 
-            <CollectionView
+            <ListView
                 x:Name="collectionView"
                 x:DataType="vm:StoresEdit"
                 ItemsSource="{Binding Stores}"
                 SelectionMode="None">
-                <CollectionView.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Store">
-                        <Grid Padding="8">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
-                                <!--The "Star" Width. A number followed by a star allocates proportionally
-                                This was the only way I could fill the column with the button-->
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <ViewCell>
+                            <Grid Padding="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
 
-                            <CheckBox CheckedChanged="CheckBox_CheckedChanged" />
-                            <Button Grid.Column="1" Text="{Binding Name}" Clicked="Button_Clicked" />
-                        </Grid>
+                                    <!--The "Star" Width. A number followed by a star allocates proportionally
+                                This was the only way I could fill the column with the button-->
+
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox CheckedChanged="CheckBox_CheckedChanged" />
+                                <Button Grid.Column="1" Text="{Binding Name}" Clicked="Button_Clicked" />
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
         <!-- float -->
         <!-- Android -->
