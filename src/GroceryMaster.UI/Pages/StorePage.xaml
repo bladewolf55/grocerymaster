@@ -28,34 +28,33 @@
             AbsoluteLayout.LayoutFlags="SizeProportional"
             AbsoluteLayout.LayoutBounds="0,80,1,1">
 
-            <CollectionView
+            <ListView
                 x:Name="collectionView"
                 x:DataType="vm:StoreEdit"
                 ItemsSource="{Binding Aisles}"
-                SelectionMode="None"
-                CanReorderItems="True"
-                ReorderCompleted="collectionView_ReorderCompleted">
-                <CollectionView.ItemTemplate>
+                SelectionMode="None">
+                <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:Aisle">
-                        <Grid Padding="8">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
-                                <ColumnDefinition Width="40" />
-                                <!--The "Star" Width. A number followed by a star allocates proportionally
-                                This was the only way I could fill the column with the button-->
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <CheckBox Grid.Column="0" CheckedChanged="CheckBox_CheckedChanged" />
-                            <Image Grid.Column="1" Source="drag_vertical.png" BackgroundColor="#00000000" />
-                            <Button Grid.Column="2" Text="{Binding Name}" Clicked="Button_Clicked" />
-                        </Grid>
+                        <ViewCell>
+                            <Grid Padding="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="40" />
+                                    <!--The "Star" Width. A number followed by a star allocates proportionally
+                                        This was the only way I could fill the column with the button-->
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Column="0" CheckedChanged="CheckBox_CheckedChanged" />
+                                <Image Grid.Column="1" Source="drag_vertical.png" BackgroundColor="#00000000" />
+                                <Button Grid.Column="2" Text="{Binding Name}" Clicked="Button_Clicked" />
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
         <!-- float -->
         <!-- Android -->
