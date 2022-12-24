@@ -1,5 +1,6 @@
 ﻿using GroceryMaster.Data;
 using GroceryMaster.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroceryMaster.Services;
 
@@ -28,6 +29,8 @@ public class GroceryDataService : IGroceryDataService
 
     public IEnumerable<Aisle> GetAisles(int storeId) => db.Aisles.Where(a => a.StoreId == storeId);
 
+    public IEnumerable<Aisle> GetAislesWithItems(int storeId) =>  db.Aisles.Where(a => a.StoreId == storeId).Include(a => a.Items);
+    
     public Item? GetItem(int id) => db.Items.Find(id);
 
     public IEnumerable<Item> GetItems() => db.Items;

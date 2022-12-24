@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GroceryMaster.UI.ViewModels"
+             xmlns:model="clr-namespace:GroceryMaster.Data.Models;assembly=GroceryMaster.Services"
+             x:Class="GroceryMaster.UI.Pages.AisleItemsPage"          
+             x:DataType="vm:AisleItemsEdit"
+             Title="{Binding Store.Name}">
+
+    <ListView
+        x:Name="collectionView"
+        x:DataType="vm:AisleItemsEdit"
+        ItemsSource="{Binding Aisles}"
+        IsGroupingEnabled="True"        
+        SelectionMode="None">
+        
+        <ListView.GroupHeaderTemplate>
+            <DataTemplate x:DataType="model:Aisle">
+                <ViewCell>
+                    <Label Text="{Binding Name }"
+                               BackgroundColor="LightGray"
+                               FontSize="20"
+                               FontAttributes="Bold" />
+                </ViewCell>
+            </DataTemplate>
+        </ListView.GroupHeaderTemplate>
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="model:Item">
+                <ViewCell>
+                    <Grid Padding="8">
+                        <Grid.GestureRecognizers>
+                            <DragGestureRecognizer CanDrag="True" DragStarting="DragGestureRecognizer_DragStarting" />
+                            <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_Drop" />
+                        </Grid.GestureRecognizers>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="40" />
+                            <!--The "Star" Width. A number followed by a star allocates proportionally
+                                        This was the only way I could fill the column with the button-->
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Grid.Column="0" CheckedChanged="CheckBox_CheckedChanged" />
+                        <Image Grid.Column="1" Source="drag_vertical.png" BackgroundColor="#00000000" />
+                        <Editor Grid.Column="2" Text="{Binding Name}" TextChanged="Editor_TextChanged" />
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</ContentPage>

@@ -17,15 +17,21 @@ public partial class MainPage : ContentPage
         this.service = service;
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
+    private void ButtonOldPage_Clicked(object sender, EventArgs e)
     {
         var store = ((Button)sender).BindingContext as Store;
         var vm = new StoreEdit(store, service);
         Application.Current.MainPage.Navigation.PushAsync(new StorePage(vm, service), true);
-
-        // TEST
-        //Application.Current.MainPage.Navigation.PushAsync(new TestPage(), true);
     }
+
+    private void ButtonNewPage_Clicked(object sender, EventArgs e)
+    {
+        var store = ((Button)sender).BindingContext as Store;
+        var vm = new AisleItemsEdit(store, service);
+        Application.Current.MainPage.Navigation.PushAsync(new AisleItemsPage(vm, service), true);
+    }
+
+
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {

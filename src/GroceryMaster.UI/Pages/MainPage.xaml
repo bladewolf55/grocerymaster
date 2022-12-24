@@ -45,12 +45,13 @@
 
                                     <!--The "Star" Width. A number followed by a star allocates proportionally
                                 This was the only way I could fill the column with the button-->
-
+                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
                                 <CheckBox CheckedChanged="CheckBox_CheckedChanged" />
-                                <Button Grid.Column="1" Text="{Binding Name}" Clicked="Button_Clicked" />
+                                <Button Grid.Column="1" Text="{Binding Name}" Clicked="ButtonOldPage_Clicked"  />
+                                <Button Grid.Column="2" Text="{Binding Name}" Clicked="ButtonNewPage_Clicked"  />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

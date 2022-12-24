@@ -87,12 +87,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\AisleItemsPage.xaml.cs">
+	    <DependentUpon>AisleItemsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\AislePage.xaml.cs">
 	    <DependentUpon>AislePage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\AisleItemsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\AislePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

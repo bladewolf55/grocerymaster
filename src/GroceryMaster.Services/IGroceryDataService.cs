@@ -57,6 +57,12 @@ public interface IGroceryDataService
     IEnumerable<Aisle> GetAisles();
 
     /// <summary>
+    /// Get all <see cref="IEnumerable{Aisle}"/> including <see cref="IEnumerable{Item}"/>
+    /// </summary>
+    /// <returns><see cref="IEnumerable{Aisle}"/></returns>
+    IEnumerable<Aisle> GetAislesWithItems(int storeId);
+
+    /// <summary>
     /// Get a <see cref="IEnumerable{Aisle}"/>
     /// </summary>
     /// <param name="storeId"></param>

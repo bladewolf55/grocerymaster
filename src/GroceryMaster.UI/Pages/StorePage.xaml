@@ -27,7 +27,6 @@
         <VerticalStackLayout
             AbsoluteLayout.LayoutFlags="SizeProportional"
             AbsoluteLayout.LayoutBounds="0,80,1,1">
-
             <ListView
                 x:Name="collectionView"
                 x:DataType="vm:StoreEdit"
@@ -37,6 +36,10 @@
                     <DataTemplate x:DataType="model:Aisle">
                         <ViewCell>
                             <Grid Padding="8">
+                                <Grid.GestureRecognizers>
+                                    <DragGestureRecognizer CanDrag="True" DragStarting="DragGestureRecognizer_DragStarting" />
+                                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_Drop" />
+                                </Grid.GestureRecognizers>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
