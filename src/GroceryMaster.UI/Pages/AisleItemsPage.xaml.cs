@@ -20,22 +20,12 @@ public partial class AisleItemsPage : ContentPage
 
     }
 
-
-    private void DragGestureRecognizer_DragStarting(object sender, DragStartingEventArgs e)
-    {
-        var itemContext = ((DragGestureRecognizer)sender).BindingContext as Item;
-        e.Data.Properties.Add("Item", itemContext);
-    }
-
-    private void DropGestureRecognizer_Drop(object sender, DropEventArgs e)
-    {
-        var dragItem = e.Data.Properties["Item"] as Item;
-        var dropItem = (sender as DropGestureRecognizer).BindingContext as Item;
- 
-        vm.DragDropItem(dragItem, dropItem);
-    }
-
     private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
+
+    private void collectionView_ReorderCompleted(object sender, EventArgs e)
     {
 
     }
