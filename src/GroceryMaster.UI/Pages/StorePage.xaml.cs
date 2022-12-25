@@ -29,25 +29,10 @@ public partial class StorePage : ContentPage
         vm.ChangeAisleSelection(aisle, e);
     }
 
-    private void DragGestureRecognizer_DragStarting(object sender, DragStartingEventArgs e)
+    
+
+    private void collectionView_ReorderCompleted(object sender, EventArgs e)
     {
-        var context = ((DragGestureRecognizer)sender).BindingContext as Aisle;
-        e.Data.Properties.Add("Aisle", context);
-    }
-
-    private void DropGestureRecognizer_Drop(object sender, DropEventArgs e)
-    {
-        var dragAisle = e.Data.Properties["Aisle"] as Aisle;
-        var dropAisle = (sender as DropGestureRecognizer).BindingContext as Aisle;
-        // for now, if drag sequence < drop, insert after drop
-        // if drag seq > drop, insert before drop
-
-        vm.Aisles.Remove(dragAisle);
-        var dropIndex = vm.Aisles.IndexOf(dropAisle);
-        if (dragAisle.Sequence < dropAisle.Sequence)
-            dropIndex++;
-
-        vm.Aisles.Insert(dropIndex, dragAisle);
         vm.SetAisleSequences();
     }
 }
